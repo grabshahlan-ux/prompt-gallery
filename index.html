@@ -322,8 +322,8 @@
     const tagsBtn = { classList: { add: ()=>{}, remove: ()=>{} } }; // removed
     bar.innerHTML = '<span class="filter-label">Filter</span>';
     const hasFavs = getFavs().length > 0;
-    if (!tags.length && !hasFavs) { tagsBtn.classList.remove('visible'); bar.classList.remove('open'); return; }
-    tagsBtn.classList.add('visible');
+    if (!tags.length && !hasFavs) { bar.classList.remove('open'); return; }
+    bar.classList.add('open');
     const allBtn = document.createElement('button');
     allBtn.className = 'filter-tag' + (activeFilter === 'all' ? ' active' : '');
     allBtn.textContent = 'All';
@@ -347,9 +347,7 @@
 
   function toggleFilterBar() {
     const bar = document.getElementById('filter-bar');
-    const btn = document.getElementById('btn-tags');
-    const isOpen = bar.classList.toggle('open');
-    btn.classList.toggle('open', isOpen);
+    bar.classList.toggle('open');
   }
 
   function setFilter(tag, btn) {
