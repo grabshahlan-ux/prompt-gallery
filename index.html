@@ -48,7 +48,7 @@
     .logo { display: flex; align-items: center; gap: 8px; }
     .logo-text { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 400; color: var(--paper); }
     .logo-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-    .count-pill { font-size: 11px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 2px 9px; border-radius: 20px; }
+    .count-pill { font-size: 11px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); padding: 2px 9px; border-radius: 20px; display: none; }
     .header-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .search-wrap { position: relative; }
     .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.3); pointer-events: none; }
@@ -150,10 +150,12 @@
     .toast { position: fixed; bottom: 1.75rem; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--ink); color: var(--paper); padding: 10px 20px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; pointer-events: none; transition: all 0.25s; white-space: nowrap; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    @media (min-width: 480px) { .count-pill { display: inline-block; } }
     @media (max-width: 480px) {
       .header { padding: 0 1rem; }
-      .search-input { width: 110px; }
-      .search-input:focus { width: 130px; }
+      .logo-text { font-size: 16px; }
+      .search-input { width: 90px; }
+      .search-input:focus { width: 110px; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 10px; }
       .container { padding: 1rem 1rem 4rem; }
       .filter-bar { padding: 0.6rem 1rem; }
