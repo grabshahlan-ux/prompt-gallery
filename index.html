@@ -59,8 +59,8 @@
     .btn-add:hover { background: var(--accent2); }
 
     /* Filter */
-    .filter-bar { background: var(--paper2); border-bottom: 1px solid var(--border); padding: 0 1.5rem; display: flex; gap: 7px; flex-wrap: wrap; align-items: center; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
-    .filter-bar.open { max-height: 120px; padding: 0.7rem 1.5rem; }
+    .filter-bar { background: var(--paper2); border-bottom: 1px solid var(--border); padding: 0.7rem 1.5rem; display: none; gap: 7px; flex-wrap: wrap; align-items: center; }
+    .filter-bar.open { display: flex; }
     .filter-label { font-size: 10px; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.09em; font-weight: 500; }
     .filter-tag { height: 27px; padding: 0 11px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; font-size: 11px; font-weight: 500; color: var(--ink2); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
     .filter-tag:hover { background: var(--paper3); }
@@ -183,17 +183,15 @@
         <svg class="search-icon" width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <input class="search-input" type="text" placeholder="Search..." id="search" oninput="filterCards()">
       </div>
-      <button class="btn-tags" id="btn-tags" onclick="toggleFilterBar()">
-        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Tags <span class="arrow">▾</span>
-      </button>
       <button class="btn-add" onclick="openAddModal()">
         <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         Add
       </button>
     </div>
   </header>
-  <div class="filter-bar" id="filter-bar"><span class="filter-label">Filter</span></div>
+  <div class="filter-bar" id="filter-bar">
+    <span class="filter-label">Filter</span>
+  </div>
   <div class="container"><div class="grid" id="grid"><div class="empty"><div class="empty-icon">✦</div><h3>Loading your collection...</h3></div></div></div>
 </div>
 
@@ -321,7 +319,7 @@
   function buildFilterTags() {
     const tags = [...new Set(allEntries.map(e => e.tag).filter(Boolean))];
     const bar = document.getElementById('filter-bar');
-    const tagsBtn = document.getElementById('btn-tags');
+    const tagsBtn = { classList: { add: ()=>{}, remove: ()=>{} } }; // removed
     bar.innerHTML = '<span class="filter-label">Filter</span>';
     const hasFavs = getFavs().length > 0;
     if (!tags.length && !hasFavs) { tagsBtn.classList.remove('visible'); bar.classList.remove('open'); return; }
