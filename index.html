@@ -57,6 +57,9 @@
     .search-input:focus { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.22); width: 130px; }
     .btn-add { height: 35px; padding: 0 15px; background: var(--accent); border: none; border-radius: 20px; color: #fff; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
     .btn-add:hover { background: var(--accent2); }
+    .btn-filter { width: 35px; height: 35px; background: transparent; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: rgba(255,255,255,0.6); cursor: pointer; display: none; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+    .btn-filter:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .btn-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
     /* Filter */
     .filter-bar { background: var(--paper2); border-bottom: 1px solid var(--border); padding: 0.7rem 1.5rem; display: none; gap: 7px; flex-wrap: wrap; align-items: center; }
@@ -183,6 +186,9 @@
         <svg class="search-icon" width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <input class="search-input" type="text" placeholder="Search..." id="search" oninput="filterCards()">
       </div>
+      <button class="btn-filter" id="btn-filter" onclick="toggleFilterBar()" title="Filter by tag" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
       <button class="btn-add" onclick="openAddModal()">
         <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
         Add
@@ -322,8 +328,13 @@
     const tagsBtn = { classList: { add: ()=>{}, remove: ()=>{} } }; // removed
     bar.innerHTML = '<span class="filter-label">Filter</span>';
     const hasFavs = getFavs().length > 0;
-    if (!tags.length && !hasFavs) { bar.classList.remove('open'); return; }
-    bar.classList.add('open');
+    const filterBtn = document.getElementById('btn-filter');
+    if (!tags.length && !hasFavs) {
+      bar.classList.remove('open');
+      if (filterBtn) { filterBtn.style.display = 'none'; filterBtn.classList.remove('active'); }
+      return;
+    }
+    if (filterBtn) { filterBtn.style.display = 'flex'; }
     const allBtn = document.createElement('button');
     allBtn.className = 'filter-tag' + (activeFilter === 'all' ? ' active' : '');
     allBtn.textContent = 'All';
@@ -347,7 +358,9 @@
 
   function toggleFilterBar() {
     const bar = document.getElementById('filter-bar');
-    bar.classList.toggle('open');
+    const btn = document.getElementById('btn-filter');
+    const isOpen = bar.classList.toggle('open');
+    if (btn) btn.classList.toggle('active', isOpen);
   }
 
   function setFilter(tag, btn) {
